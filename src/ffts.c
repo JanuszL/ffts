@@ -121,7 +121,7 @@ ffts_flush_instruction_cache(void *start, size_t length)
 #if GCC_VERSION_AT_LEAST(4,3)
     __builtin___clear_cache(start, (char*) start + length);
 #elif __GNUC__
-    __clear_cache((long) start, (long) start + length);
+    __builtin___clear_cache((char*) start, (char*) start + length);
 #endif
 #endif
     return 0;
@@ -338,11 +338,11 @@ ffts_generate_luts(ffts_plan_t *p, size_t N, size_t leaf_N, int sign)
                 temp0 = V4SF2_LD(fw0 + j*2);
                 temp0.val[1] = V4SF_XOR(temp0.val[1], neg);
                 V4SF2_STORE_SPR(fw + j*2*3, temp0);
-                
+
                 temp1 = V4SF2_LD(fw1 + j*2);
                 temp1.val[1] = V4SF_XOR(temp1.val[1], neg);
                 V4SF2_STORE_SPR(fw + j*2*3 + 8,  temp1);
-                
+
                 temp2 = V4SF2_LD(fw2 + j*2);
                 temp2.val[1] = V4SF_XOR(temp2.val[1], neg);
                 V4SF2_STORE_SPR(fw + j*2*3 + 16, temp2);
